@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import axios from 'axios'
+import { Axios } from "../api/axioslnstance";
 
 const SignUp = () => {
  const [user,setUsers]= useState([])
