@@ -3,11 +3,24 @@ import axios from 'axios'
 import { Axios } from "../api/axioslnstance";
 
 const SignUp = () => {
- const [user,setUsers]= useState([])
- const [email,setEmail] = useState('')
- const [name,setName] = useState('')
- const [password,setPassword] = useState('')
+ const [fromData,setFromData] = useState({
+  email:"",
+  password:"",
+  name:"",
+ })
 
+ const HandleLogin = async (e) => {
+  try {
+    e.preventDefault();
+    const {name,email,password} = fromData;
+    const response = await Axios.post(`signup`,{
+
+    })
+
+  } catch (error) {
+    
+  }
+ }
 
 
   return (
@@ -16,17 +29,22 @@ const SignUp = () => {
         <form className="text-center border rounded-lg w-[600px] h-[400px] p-9">
           <label>Email</label>
           <br />
-          <input className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
+          <input type="text" name="email" value={fromData.email}  onChange={(e) =>{
+            setFromData({...fromData,email:e.target.value})
+          }} className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
           <br />
           <br />
           <label>Username</label>
           <br />
-          <input className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
+          <input type="text" name="name" value={fromData.name} onChange={(e) => {
+            setFromData({...fromData,name:e.target.value})
+          }} className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
           <br />
           <br />
           <label>password</label>
           <br />
-          <input className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
+          <input type="text" name="password" value={fromData.password} onChange={(e) =>{setFromData({...fromData,password:e.target.value})
+          }} className="w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2" />
           <br />
           <br />
           <button className="w-[200px] h-[50px] rounded-xl bg-zinc-300 p-2">Sign Up</button>
