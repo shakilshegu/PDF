@@ -1,6 +1,4 @@
-import Jwt  from "jsonwebtoken";
-import dotenv from 'dotenv'
-dotenv.config()
+import jwt  from "jsonwebtoken";
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -10,17 +8,14 @@ const authMiddleware = async (req, res, next) => {
         .status(401)
         .send({ message: "Authorization token missing", success: false });
     }
-    console.log("kooooi");
-    Jwt.verify(token,process.env.SECRET_KEY,(err,decoded) =>{
-        if (err) {
-            return res.status(401).send({ message: "Auth failed", success: false });
-          } else {
-            console.log(decoded.id);
-            req.userId = decoded.id;
-
-            next();
-          }
-    })
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Auth failed", success: false });
+      } else {
+        req.userId = decoded.id;
+        next();
+      }
+    });
   } catch (error) {
     return res
       .status(401)
@@ -28,4 +23,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-export {authMiddleware}
+export default authMiddleware

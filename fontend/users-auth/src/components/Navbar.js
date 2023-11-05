@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState();
+  const [data, setData] = useState({ name: "", email: "" });
+  
   const usertoken = localStorage.getItem("token");
   const headers = { authorization: usertoken };
   
@@ -13,7 +14,6 @@ const Navbar = () => {
     try {
       const response = await Axios.post(`getUser`,{},{headers})
       setData(response.data.data);
-      console.log(response.data.data.name);
     } catch (error) {
       console.log(error);
     }
@@ -34,10 +34,11 @@ const Navbar = () => {
         <Link to="/">
           <h1 className="text-red-600 text-3xl">PDF</h1>
         </Link>
-        {data}
+        
         <ul className="flex gap-6">
+        <p>{data.name}</p>
           <Link to="/login" onClick={handleLogout}> {usertoken ? "Logout" : "Login"}</Link>
-           <Link to="/signup">SignUp</Link>
+          {data.name ? null :<Link to="/signup">SignUp</Link>} 
         </ul>
       </nav>
   );

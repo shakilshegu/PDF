@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const user = await User.find(req.userId);
+    const user = await User.findById(req.userId);
     if (!user) {
       res.status(201).send({ message: "User not found", success: false });
     } else {
@@ -61,7 +61,7 @@ const login = async (req, res) => {
         .status(200)
         .send({ message: "password not match", success: false });
     }
-    const token = Jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    const token = Jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1hr",
     });
     res.send({
