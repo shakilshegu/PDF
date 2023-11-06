@@ -3,6 +3,9 @@ import { Viewer, Worker } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import packageJson from '../../package.json';
+
+const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
 
 const PDFUploader = () => {
   const [pdfFile, setPdfFile] = useState(null);
@@ -30,6 +33,7 @@ const PDFUploader = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
+
     if (pdfFile !== null) {
       setViewPdf(pdfFile);
     } else {
@@ -39,7 +43,7 @@ const PDFUploader = () => {
 
   return (
     <div className="container mx-auto mt-16 p-4">
-      <form className="w-full max-w-sm mx-auto">
+      <form className="w-full max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pdfFile"> {/* Correct 'for' to 'htmlFor' */}
             Upload PDF
@@ -55,17 +59,18 @@ const PDFUploader = () => {
         <button
           type="submit"
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleSubmit}
+          
         >
           View PDF
-        </button>
+        </button> 
       </form>
       <h2 className="mt-6 text-lg font-semibold">View PDF</h2>
       <div className="pdf-container mt-4 border border-gray-400 p-4 rounded">
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.1.266/build/pdf.worker.min.js">
-          {viewPdf && <Viewer fileUrl={viewPdf} plugins={defaultLayoutPluginInstance} />}
+        <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
+          {viewPdf && <Viewer fileUrl={viewPdf} plugins={[defaultLayoutPluginInstance]} />}
           {!viewPdf && <>No pdf </>}
         </Worker>
+
       </div>
     </div>
   );
