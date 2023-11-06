@@ -3,6 +3,11 @@ import {Link } from "react-router-dom";
 import {Axios} from "../api/axioslnstance"
 import { useNavigate } from "react-router-dom";
 
+
+
+
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({ name: "", email: "" });
